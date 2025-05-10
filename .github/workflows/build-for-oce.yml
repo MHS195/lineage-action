@@ -1,9 +1,9 @@
-name: build-for-nx508j
+name: build-for-oce
 
 on: workflow_dispatch
 
 jobs:
-  build-for-nx508j:
+  build-for-oce:
     runs-on: ubuntu-latest
     steps:
       - name: Setting up Build Directories
@@ -23,33 +23,24 @@ jobs:
           
       - name: Authenticating "repo" with GitHub Account
         run: |
-          git config --global user.email "2402776722@qq.com"
-          git config --global user.name "Fixa-six"
+          git config --global user.email "m.hamdisharaf@gmail.com"
+          git config --global user.name "MHS195"
           
-      - name: Enabling Caching (not sure)
-        run: |
-          export USE_CCACHE=1
-          export CCACHE_EXEC=/usr/bin/ccache
-          ccache -M 25G
           
       - name: Setting Up Local Repo
         run: |
-          ~/bin/repo init -u https://github.com/LineageOS/android.git -b lineage-18.1 --git-lfs
+          ~/bin/repo init -u https://github.com/MHS195/manifest.git -b maru-0.7 --git-lfs
           ~/bin/repo sync
           
       - name: Setting Up Build Environment
         run: |
-          mkdir -p device/nubia kernel/nubia vendor/nubia
-          git clone https://github.com/JackLI9/android_device_nubia_nx508j -b staging/lineage-18.1 device/nubia/nx508j
-          git clone https://github.com/JackLI9/android_vendor_nubia_nx508j -b staging/lineage-18.1 vendor/nubia/nx508j
-          git clone https://github.com/JackLI9/android_kernel_nubia_msm8994 -b staging/lineage-18.1 kernel/nubia/msm8994
-          git clone https://github.com/LineageOS/android_hardware_sony_timekeep -b lineage-18.1 hardware/sony/timekeep
+          curl https://github.com/maruos/builds/releases/download/v0.6.8/maru-geb4a1b8-debian-stretch-arm64-rootfs-e990e414.tar.gz > vendor/maru/prebuilts/desktop-rootfs.tar.gz
           source build/envsetup.sh
-          lunch lineage_nx508j-userdebug
+          lunch maru_oce-userdebug
           
       - name: Starting Build Process
         run: |
-          croot && mka bacon
+          mka
       
       - name: Get current time
         uses: srfrnk/current-time@master
@@ -66,7 +57,6 @@ jobs:
           body: |
             This is an Automatic Release by GitHub Actions.
           files: |
-            $OUT/recovery.img
-            $OUT/lineage-*-nx508j.zip
+            $OUT/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
