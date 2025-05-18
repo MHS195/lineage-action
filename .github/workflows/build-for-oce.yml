@@ -34,7 +34,7 @@ jobs:
           
       - name: Setting Up Build Environment
         run: |
-          curl https://github.com/maruos/builds/releases/download/v0.6.8/maru-geb4a1b8-debian-stretch-arm64-rootfs-e990e414.tar.gz > vendor/maru/prebuilts/desktop-rootfs.tar.gz
+          wget https://github.com/maruos/builds/releases/download/v0.6.8/maru-geb4a1b8-debian-stretch-arm64-rootfs-e990e414.tar.gz > vendor/maruos/prebuilts/desktop-rootfs.tar.gz
           source build/envsetup.sh
           lunch maru_oce-userdebug
           
